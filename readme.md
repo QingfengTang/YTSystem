@@ -15,6 +15,7 @@ This repository implements my YT System
     python3.6
     pyltp
     LAC
+    xlrd==1.2.0
     ```
 ## Copyright
 ```

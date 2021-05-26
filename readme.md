@@ -12,10 +12,14 @@ This repository implements my YT System
 ## Note
 1. requirements
     ```
-    python3.6
+    python==3.6
     pyltp
     LAC
     xlrd==1.2.0
+    keras==2.2.0
+    keras-transformer
+    keras-bert
+    tensorflow==1.13.1
     ```
 ## Copyright
 ```

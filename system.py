@@ -13,8 +13,15 @@ class YTApp():
         self.topic.toExcel('./save/topic/topic_discovery.xlsx')
 
     def run(self):
-        print('发现了以下话题:')
+        # 初始化，提前加载数据
         topic_data = pd.read_excel('./save/topic/topic_discovery.xlsx')
+        # topic 个数
+        num_topic = len(set(topic_data['topic_id']))
+
+        print('共发现了 {} 类话题'.format(num_topic))
+
+        topic_id = input('请输入想要查看的 topic id: ')
+        print(topic_id)
 
 
 
@@ -26,7 +33,7 @@ class YTApp():
 if __name__ == '__main__':
     app = YTApp(raw_data='./data/raw_data/America.xlsx')
     # 构建
-    app.build()
+    # app.build()
     # 展示
     app.run()
 

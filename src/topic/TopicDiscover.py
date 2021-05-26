@@ -19,10 +19,11 @@ class TopicDiscover():
         self.text_num = text_num
         self.stop_word_url = stop_word_url
         self.stopwords = []
+        self.excel_urls = excel_urls
         # self.sentence_df = None
         # self.article_keywords = None
         self.stopwordslist()
-        self.getDataFromExcel(excel_urls=excel_urls,content_col_name=content_col_name,id_col =id_col)
+        # self.getDataFromExcel(excel_urls=excel_urls,content_col_name=content_col_name,id_col =id_col)
 
     def getDataFromExcel(self,excel_urls,content_col_name,id_col =None):
         ''' 从excel中获得数据
@@ -96,10 +97,11 @@ class TopicDiscover():
             if num >= self.text_num:
                 break
             num += 1
+            splited_id = 0
             try:
                 content = contents_df.loc[text_id].strip()  # 获取文本
                 spliteds = re.split(split_tag, content)  # 开始分句/段
-                splited_id = 0
+                # splited_id = 0
                 for splited in spliteds:
                         if len(splited) > 3:
                             splited_num += 1
@@ -119,7 +121,7 @@ class TopicDiscover():
                             splited_df.loc[splited_num] = [text_id, splited_id, (text_id, splited_id), splited, pagekeywords]
                             splited_id += 1
             except:
-                print(text_id,splited_id, '---')
+                print(text_id, splited_id, '---')
         for article_keyword in article_keywords:
             print(article_keyword)
         splited_df['topic_id'] = None
@@ -137,6 +139,7 @@ class TopicDiscover():
         :param top_keyword_num: 选取前top_keyword_num个关键词
         :param setID:是否为话题设置话题ID，建议设置
         '''
+        self.getDataFromExcel(excel_urls=self.excel_urls, content_col_name=self.content_col_name, id_col=self.id_col)
         comu_group = self.cb.build(self.article_keywords, max_depth=max_division_depth, min_doc_num=min_doc_num_per_cate,
                               min_nodes=min_nodes_per_cate)
         topic_list = []
@@ -211,8 +214,10 @@ class TopicDiscover():
         :param excel_url: excel路径
         '''
         if self.splited == False:
+            self.content_df.dropna(inplace=True)
             self.content_df.to_excel(excel_url, index=False)
         else:
+            self.splited_df.dropna(inplace=True)
             self.splited_df.to_excel(excel_url, index=False)
 
     def delete_NoTopic(self):
@@ -226,8 +231,7 @@ class TopicDiscover():
             content_df = self.splited_df
         # sentence_df = self.sentence_df
         # print(content_df.columns.values)
-        df = pd.DataFrame(
-            columns=(content_df.columns.values))
+        df = pd.DataFrame(columns=(content_df.columns.values))
         for index,row in content_df.iterrows():
             if row['topic_id'] == None or row['topic_id'] == '':
                 print('delete',index)

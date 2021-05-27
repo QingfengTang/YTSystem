@@ -10,7 +10,6 @@ import json
 import re
 from fastNLP import BucketSampler
 from fastNLP import DataSetIter
-from src.intent.model  import BiLSTMMaxPoolCls
 
 class IntentDiscovery():
     def __init__(self, json_path, stop_word_path, vocab_path, model_path):
